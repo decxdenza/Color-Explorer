@@ -476,6 +476,106 @@ class ColorExplorer():
                 )
             )
         self.gui.update()
+
+    def create_reference_view_item(self, name: str, desc: str, docs_url: str, pip: bool = False, width_1: float = 5, width_2: float = 51) -> flet.Container:
+        def to_docs(e):
+            webbrowser.open_new_tab(e.control.tooltip)
+        def pip_install(e):
+            try:
+                os.system(f'pip install {e.control.data}')
+            except:
+                pass
+        return flet.Container(
+            width=330,
+            height=70,
+            shape=flet.RoundedRectangleBorder(),
+            border_radius=BorderRadiuses.mdl_about_view_container,
+            border=flet.Border(
+                flet.BorderSide(2, Colors.mdl_about_view_references_item_border_side),
+                flet.BorderSide(2, Colors.mdl_about_view_references_item_border_side),
+                flet.BorderSide(2, Colors.mdl_about_view_references_item_border_side),
+                flet.BorderSide(2, Colors.mdl_about_view_references_item_border_side)
+            ),
+            shadow=Shadows.mdl_about_view_references_container,
+            content=flet.Row(
+                tight=True,
+                controls=[
+                    flet.Row(width=width_1),
+                    flet.Icon(Icons.mdl_about_view_item_leading),
+                    flet.Column(
+                        tight=True,
+                        spacing=0.1,
+                        controls=[
+                            flet.Text(name),
+                            flet.Text(desc, opacity=0.85)
+                        ]
+                    ),
+                    flet.Row(width=width_2),
+                    flet.PopupMenuButton(
+                        icon=flet.Icons.MORE_VERT,
+                        items=[
+                            flet.PopupMenuItem(
+                                self.langlab.EU_about_view_item_docs.value,
+                                Icons.mdl_about_view_item_docs_trailing_action,
+                                tooltip=docs_url,
+                                on_click=to_docs
+                                ),
+                            flet.PopupMenuItem(
+                                self.langlab.EU_about_view_item_cannot_be_installed.value if (pip == False) else self.langlab.EU_about_view_item_install.value,
+                                Icons.mdl_about_view_item_install_trailing_action,
+                                data=name,
+                                disabled=True if (pip == False) else False,
+                                on_click=pip_install
+                            )
+                        ]
+                    )
+                ]
+            )
+        )
+
+    def create_credits_view_item(self, name: str, w: str, git_url: str, width_1: float = 5, width_2: float = 51) -> flet.Container:
+        def to_git(e):
+            webbrowser.open_new_tab(e.control.tooltip)
+        return flet.Container(
+            width=330,
+            height=70,
+            shape=flet.RoundedRectangleBorder(),
+            border_radius=BorderRadiuses.mdl_about_view_container,
+            border=flet.Border(
+                flet.BorderSide(2, Colors.mdl_about_view_credits_item_border_side),
+                flet.BorderSide(2, Colors.mdl_about_view_credits_item_border_side),
+                flet.BorderSide(2, Colors.mdl_about_view_credits_item_border_side),
+                flet.BorderSide(2, Colors.mdl_about_view_credits_item_border_side)
+            ),
+            shadow=Shadows.mdl_about_view_credits_container,
+            content=flet.Row(
+                tight=True,
+                controls=[
+                    flet.Row(width=width_1),
+                    flet.Icon(Icons.mdl_about_view_item_credits_trailing_action),
+                    flet.Column(
+                        tight=True,
+                        spacing=0.1,
+                        controls=[
+                            flet.Text(w),
+                            flet.Text(f'by {name}', opacity=0.85)
+                        ]
+                    ),
+                    flet.Row(width=width_2),
+                    flet.PopupMenuButton(
+                        icon=flet.Icons.MORE_VERT,
+                        items=[
+                            flet.PopupMenuItem(
+                                self.langlab.EU_about_view_item_credits_action_text.value,
+                                Icons.mdl_about_view_item_credits_trailing_action,
+                                tooltip=git_url,
+                                on_click=to_git
+                            )
+                        ]
+                    )
+                ]
+            )
+        )
     
     def open_logger(self, e):
         pass
@@ -494,248 +594,55 @@ class ColorExplorer():
             content=flet.Column(
                 tight=True,
                 controls=[
-                    flet.ListTile(
-                        width=350,
-                        leading=flet.Icon(Icons.mdl_about_view_item_leading),
-                        title=flet.Text('flet'),
-                        subtitle=flet.Text('UI library'),
-                        trailing=flet.PopupMenuButton(
-                            icon=Icons.mdl_about_view_item_trailing,
-                            items=[
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_docs.value,
-                                    Icons.mdl_about_view_item_docs_trailing_action,
-                                    tooltip='https://flet.dev/docs/',
-                                    on_click=to_docs
-                                ),
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_install.value,
-                                    Icons.mdl_about_view_item_install_trailing_action,
-                                    data='flet',
-                                    on_click=pip_install
-                                )
-                            ]
-                        )
-                    ),
-                    flet.ListTile(
-                        width=350,
-                        leading=flet.Icon(Icons.mdl_about_view_item_leading),
-                        title=flet.Text('os'),
-                        subtitle=flet.Text('Interaction with OS'),
-                        trailing=flet.PopupMenuButton(
-                            icon=Icons.mdl_about_view_item_trailing,
-                            items=[
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_docs.value,
-                                    Icons.mdl_about_view_item_docs_trailing_action,
-                                    tooltip='https://docs.python.org/3/library/os.html',
-                                    on_click=to_docs
-                                ),
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_cannot_be_installed.value,
-                                    Icons.mdl_about_view_item_install_trailing_action,
-                                    data='os',
-                                    disabled=True
-                                )
-                            ]
-                        )
-                    ),
-                    flet.ListTile(
-                        width=350,
-                        leading=flet.Icon(Icons.mdl_about_view_item_leading),
-                        title=flet.Text('json'),
-                        subtitle=flet.Text('Interaction with json files'),
-                        trailing=flet.PopupMenuButton(
-                            icon=Icons.mdl_about_view_item_trailing,
-                            items=[
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_docs.value,
-                                    Icons.mdl_about_view_item_docs_trailing_action,
-                                    tooltip='https://docs.python.org/3/library/json.html',
-                                    on_click=to_docs
-                                ),
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_cannot_be_installed.value,
-                                    Icons.mdl_about_view_item_install_trailing_action,
-                                    data='json',
-                                    disabled=True,
-                                )
-                            ]
-                        )
-                    ),
-                    flet.ListTile(
-                        width=350,
-                        leading=flet.Icon(Icons.mdl_about_view_item_leading),
-                        title=flet.Text('math'),
-                        subtitle=flet.Text('Mathematical functions'),
-                        trailing=flet.PopupMenuButton(
-                            icon=Icons.mdl_about_view_item_trailing,
-                            items=[
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_docs.value,
-                                    Icons.mdl_about_view_item_docs_trailing_action,
-                                    tooltip='https://docs.python.org/3/library/math.html',
-                                    on_click=to_docs
-                                ),
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_cannot_be_installed.value,
-                                    Icons.mdl_about_view_item_install_trailing_action,
-                                    data='math',
-                                    disabled=True,
-                                )
-                            ]
-                        )
-                    ),
-                    flet.ListTile(
-                        width=350,
-                        leading=flet.Icon(Icons.mdl_about_view_item_leading),
-                        title=flet.Text('pyperclip'),
-                        subtitle=flet.Text('Interaction with clipboard'),
-                        trailing=flet.PopupMenuButton(
-                            icon=Icons.mdl_about_view_item_trailing,
-                            items=[
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_docs.value,
-                                    Icons.mdl_about_view_item_docs_trailing_action,
-                                    tooltip='https://pyperclip.readthedocs.io/en/latest/',
-                                    on_click=to_docs
-                                ),
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_install.value,
-                                    Icons.mdl_about_view_item_install_trailing_action,
-                                    data='pyperclip',
-                                    on_click=pip_install
-                                )
-                            ]
-                        )
-                    ),
-                    flet.ListTile(
-                        width=350,
-                        leading=flet.Icon(Icons.mdl_about_view_item_leading),
-                        title=flet.Text('subprocess'),
-                        subtitle=flet.Text('Subprocess management'),
-                        trailing=flet.PopupMenuButton(
-                            icon=Icons.mdl_about_view_item_trailing,
-                            items=[
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_docs.value,
-                                    Icons.mdl_about_view_item_docs_trailing_action,
-                                    tooltip='https://docs.python.org/3/library/subprocess.html',
-                                    on_click=to_docs
-                                ),
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_cannot_be_installed.value,
-                                    Icons.mdl_about_view_item_install_trailing_action,
-                                    data='subprocess',
-                                    disabled=True,
-                                )
-                            ]
-                        )
-                    ),
-                    flet.ListTile(
-                        width=350,
-                        leading=flet.Icon(Icons.mdl_about_view_item_leading),
-                        title=flet.Text('webbrowser'),
-                        subtitle=flet.Text('Interaction with web-browser'),
-                        trailing=flet.PopupMenuButton(
-                            icon=Icons.mdl_about_view_item_trailing,
-                            items=[
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_docs.value,
-                                    Icons.mdl_about_view_item_docs_trailing_action,
-                                    tooltip='https://docs.python.org/3/library/webbrowser.html',
-                                    on_click=to_docs
-                                ),
-                                flet.PopupMenuItem(
-                                    self.langlab.EU_about_view_item_cannot_be_installed.value,
-                                    Icons.mdl_about_view_item_install_trailing_action,
-                                    data='webbrowser',
-                                    disabled=True,
-                                )
-                            ]
-                        )
+                    flet.Row(
+                        controls=[
+                            flet.Text('Description', size=16)
+                        ], alignment=flet.MainAxisAlignment.CENTER
                     ),
                     flet.Container(
                         width=330,
-                        height=70,
+                        height=85,
                         shape=flet.RoundedRectangleBorder(),
                         border_radius=BorderRadiuses.mdl_about_view_container,
                         border=flet.Border(
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side),
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side),
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side),
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side)
+                            flet.BorderSide(2, Colors.mdl_about_view_description_item_border_side),
+                            flet.BorderSide(2, Colors.mdl_about_view_description_item_border_side),
+                            flet.BorderSide(2, Colors.mdl_about_view_description_item_border_side),
+                            flet.BorderSide(2, Colors.mdl_about_view_description_item_border_side)
                         ),
-                        shadow=Shadows.mdl_about_view_credits_container,
+                        shadow=Shadows.mdl_about_view_description_container,
                         content=flet.Row(
                             tight=True,
                             controls=[
-                                flet.Row(width=5),
-                                flet.Icon(Icons.mdl_about_view_item_credits_trailing_action),
-                                flet.Column(
-                                    tight=True,
-                                    spacing=0.1,
-                                    controls=[
-                                        flet.Text('Code'),
-                                        flet.Text('by denza', opacity=0.85)
-                                    ]
-                                ),
-                                flet.Row(width=159),
-                                flet.PopupMenuButton(
-                                    icon=flet.Icons.MORE_VERT,
-                                    items=[
-                                        flet.PopupMenuItem(
-                                            self.langlab.EU_about_view_item_credits_action_text.value,
-                                            Icons.mdl_about_view_item_credits_trailing_action,
-                                            tooltip='https://github.com/decxdenza',
-                                            on_click=to_docs
-                                        )
-                                    ]
+                                flet.TextField(
+                                    'Desktop application for maintaining your own color palette.',
+                                    width=325,
+                                    height=70,
+                                    read_only=True,
+                                    multiline=True
                                 )
                             ]
                         )
                     ),
-                    flet.Column(tight=True),
-                    flet.Container(
-                        width=330,
-                        height=70,
-                        shape=flet.RoundedRectangleBorder(),
-                        border_radius=BorderRadiuses.mdl_about_view_container,
-                        border=flet.Border(
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side),
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side),
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side),
-                            flet.BorderSide(0.5, Colors.mdl_about_view_credits_item_border_side)
-                        ),
-                        shadow=Shadows.mdl_about_view_credits_container,
-                        content=flet.Row(
-                            tight=True,
-                            controls=[
-                                flet.Row(width=5),
-                                flet.Icon(Icons.mdl_about_view_item_credits_trailing_action),
-                                flet.Column(
-                                    tight=True,
-                                    spacing=0.1,
-                                    controls=[
-                                        flet.Text('Mathematical calculations'),
-                                        flet.Text('by KiriX', opacity=0.85)
-                                    ]
-                                ),
-                                flet.Row(width=51),
-                                flet.PopupMenuButton(
-                                    icon=flet.Icons.MORE_VERT,
-                                    items=[
-                                        flet.PopupMenuItem(
-                                            self.langlab.EU_about_view_item_credits_action_text.value,
-                                            Icons.mdl_about_view_item_credits_trailing_action,
-                                            tooltip='https://github.com/K1r1X',
-                                            on_click=to_docs
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                    )
+                    flet.Row(
+                        controls=[
+                            flet.Text('References', size=16)
+                        ], alignment=flet.MainAxisAlignment.CENTER
+                    ),
+                    self.create_reference_view_item('flet', 'UI library', 'https://flet.dev/docs/', True, width_2=154),
+                    self.create_reference_view_item('os', 'Interaction with OS', 'https://docs.python.org/3/library/os.html', width_2=90),
+                    self.create_reference_view_item('json', 'Interaction with json files', 'https://docs.python.org/3/library/json.html', width_2=54),
+                    self.create_reference_view_item('math', 'Mathematical functions', 'https://docs.python.org/3/library/math.html', width_2=65),
+                    self.create_reference_view_item('pyperclip', 'Interaction with clipboard', 'https://pyperclip.readthedocs.io/en/latest/', True),
+                    self.create_reference_view_item('subprocess', 'Subprocess management', 'https://docs.python.org/3/library/subprocess.html', width_2=55),
+                    self.create_reference_view_item('webbrowser', 'Interaction with web-browser', 'https://docs.python.org/3/library/webbrowser.html', width_2=30),
+                    flet.Row(
+                        controls=[
+                            flet.Text('Credits', size=16)
+                        ], alignment=flet.MainAxisAlignment.CENTER
+                    ),
+                    self.create_credits_view_item('denza', 'Code', 'https://github.com/decxdenza', width_2=161),
+                    self.create_credits_view_item('KiriX', 'Mathematical calculations', 'https://github.com/K1r1X', width_2=53)
                 ], alignment=flet.MainAxisAlignment.CENTER
             )
         )
@@ -808,7 +715,16 @@ class ColorExplorer():
                             self.int_message(self.langlab.EU_yiq_q_clip_copy.value)
         if (type(e.control) == ColorContainer):
             self.mdl = flet.AlertDialog(
-                title=flet.Text(self.langlab.EU_color_view_modal_title_text.value),
+                title=flet.Row(
+                    controls=[
+                        flet.Text(self.langlab.EU_color_view_modal_title_text.value),
+                        flet.IconButton(
+                            Icons.mdl_color_view_delete_icon_button,
+                            Colors.mdl_color_view_delete_icon_button,
+                            on_click=self.delete_color
+                        )
+                    ]
+                ),
                 content=flet.Column(
                     tight=True,
                     controls=[
@@ -867,7 +783,16 @@ class ColorExplorer():
             )
         elif (type(e.control) == ColorListTile):
             self.mdl = flet.AlertDialog(
-                title=flet.Text(self.langlab.EU_color_view_modal_title_text.value),
+                title=flet.Row(
+                    controls=[
+                        flet.Text(self.langlab.EU_color_view_modal_title_text.value),
+                        flet.IconButton(
+                            Icons.mdl_color_view_delete_icon_button,
+                            Colors.mdl_color_view_delete_icon_button,
+                            on_click=self.delete_color
+                        )
+                    ]
+                ),
                 content=flet.Column(
                     tight=True,
                     controls=[
@@ -1021,7 +946,7 @@ class ColorExplorer():
             rw.flush()
             rw.close()
     
-    def aappend_lang(self) -> None:
+    def append_lang(self) -> None:
         data = None
         with open(Files.langlab, 'r', -1, 'utf-8') as r:
             data = json.load(r)
@@ -1097,7 +1022,15 @@ class ColorExplorer():
         self.validate_colors()
     
     def delete_color(self, e):
-        color = e.control.parent.color
+        if (type(e.control) == flet.IconButton):
+            color = e.control.parent.parent.content.controls[0].controls[0].color
+            try:
+                self.gui.close(self.mdl)
+                self.gui.update()
+            except:
+                pass
+        else:
+            color = e.control.parent.color
         self.settings.color_database.colors.remove(color)
         d = { 'name': color.name, 'hex': color.hex.code, 'rgb': {'r': color.rgb.r, 'g': color.rgb.g, 'b': color.rgb.b}, 'hsv': {'h': color.hsv.h, 's': color.hsv.s, 'v': color.hsv.v}, 'hsl': {'h': color.hsl.h, 's': color.hsl.s, 'l': color.hsl.l}, 'yiq': {'y': color.yiq.y, 'i': color.yiq.i, 'q': color.yiq.q} }
         self.settings.dict['color_database'].remove(d)
