@@ -52,7 +52,9 @@ class Colors():
 
     list_view_add_new_bg_icon_button = flet.Colors.TEAL_300
     list_view_add_new_button = flet.Colors.TEAL_300
-
+    
+    mdl_about_view_description_item_border_side = flet.Colors.YELLOW
+    mdl_about_view_references_item_border_side = flet.Colors.ORANGE
     mdl_about_view_credits_item_border_side = flet.Colors.RED
 
     list_view_item_delete_trailing_action_text = flet.Colors.RED
@@ -60,6 +62,8 @@ class Colors():
     mdl_add_new_required_field_text = flet.Colors.RED
     mdl_add_new_cancel_button = flet.Colors.RED
 
+    mdl_color_view_delete_icon_button = flet.Colors.RED
+    
     mdl_settings_view_close_button = flet.Colors.RED
     mdl_settings_view_close_text_button = flet.Colors.RED
 
@@ -109,6 +113,7 @@ class Icons():
     mdl_about_view_item_credits_trailing_action = flet.Icons.PERSON
 
     mdl_color_view_copy_action_button = flet.Icons.COPY
+    mdl_color_view_delete_icon_button = flet.Icons.DELETE
 
     mdl_add_new_save_button = flet.Icons.SAVE
     mdl_add_new_cancel_button = flet.Icons.CANCEL
