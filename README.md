@@ -11,4 +11,4 @@
 
 ## Each added color will be available in five (5) color models:
 - ### [HEX](https://en.wikipedia.org/wiki/Web_colors#Hex_triplet), [RGB](https://en.wikipedia.org/wiki/RGB_color_model), [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV), [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV), [YIQ](https://en.wikipedia.org/wiki/YIQ)
-![image](https://github.com/user-attachments/assets/940f8178-3889-4947-bbfe-4e2a30667523)
+![image](https://github.com/user-attachments/assets/a2f69d52-dba0-4bc1-91d0-5c213f61d107)
